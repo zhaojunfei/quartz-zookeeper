@@ -49,6 +49,12 @@
         <property name="jobDetail" ref="jobDetail"/>
         <property name="cronExpression" value="0/10 * * * * ?"/>
     </bean>
+        <!--触发器-->
+    <bean id="simpleTrigger" class="com.mulechina.job.SimpleTriggerBean">
+        <property name="jobDetail" ref="jobDetail"/>
+        <property name="interval" value="1"/>
+        <property name="repeatCount" value="5"/>
+    </bean>
     <!--zk配置-->
     <bean id="zooKeeperFactory" class="com.mulechina.job.ZookeeperFactory">
         <property name="hosts" value="127.0.0.1:2181"/>
@@ -60,6 +66,7 @@
         <property name="triggers">
             <list>
                 <ref bean="cronTrigger" />
+                <ref bean="simpleTrigger"/>
             </list>
         </property>
         <property name="zooKeeperFactory" ref="zooKeeperFactory"/>
