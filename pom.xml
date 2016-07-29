@@ -5,7 +5,7 @@
 	<groupId>com.mulechina</groupId>
 	<artifactId>quartz-zookeeper</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>quartz-zookeeper</name>
 	<url>http://maven.apache.org</url>

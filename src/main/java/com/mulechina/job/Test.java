@@ -1,8 +1,7 @@
 package com.mulechina.job;
 
 public class Test {
-	public String test(){
+	public void test(){
 		System.out.println("123123");
-		return "123";
 	}
 }

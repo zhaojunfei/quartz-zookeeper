@@ -24,7 +24,7 @@
 	<context:annotation-config /> 
 	
 	<!-- 自动扫描且只扫描@Controller -->
-	<context:component-scan base-package="com.qianbao*"/>
+	<context:component-scan base-package="com.mulechina.job*"/>
 	
 	<!-- 加载jdbc.property -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

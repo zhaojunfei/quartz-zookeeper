@@ -9,7 +9,7 @@ public class JobDetailProxyBean implements Job{
 	private String group;
 	private String description;
 	
-	private String targetObject;
+	private Object targetObject;
 	private String targetMethod;
 	private String mode;
 	@Override
@@ -35,10 +35,10 @@ public class JobDetailProxyBean implements Job{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getTargetObject() {
+	public Object getTargetObject() {
 		return targetObject;
 	}
-	public void setTargetObject(String targetObject) {
+	public void setTargetObject(Object targetObject) {
 		this.targetObject = targetObject;
 	}
 	public String getTargetMethod() {
