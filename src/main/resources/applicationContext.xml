@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd  
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/cache 
+     	http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
+     	http://www.springframework.org/schema/task
+    	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+	
+	<!-- 开启注解配置 -->  
+	<context:annotation-config /> 
+	
+	<!-- 自动扫描且只扫描@Controller -->
+	<context:component-scan base-package="com.qianbao*"/>
+	
+	<!-- 加载jdbc.property -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:application.properties</value>
+            </list>
+        </property> 
+	    <!-- 允许多次加载属性文件-->
+	    <property name="ignoreUnresolvablePlaceholders" value="true"/>
+	</bean>
+	
+	<!--定时任务实现类-->
+    <bean id="test" class="com.mulechina.job.Test"/>
+    <!--任务代理-->
+    <bean id="jobDetail" class="com.mulechina.job.JobDetailProxyBean">
+        <property name="targetObject" ref="test"/>
+        <property name="targetMethod" value="test"/>
+    </bean>
+    <!--触发器-->
+    <bean id="cronTrigger" class="com.mulechina.job.CronTriggerBean">
+        <property name="jobDetail" ref="jobDetail"/>
+        <property name="cronExpression" value="0/10 * * * * ?"/>
+    </bean>
+    <!--zk配置-->
+    <bean id="zooKeeperFactory" class="com.mulechina.job.ZookeeperFactory">
+        <property name="hosts" value="127.0.0.1:2181"/>
+        <property name="sessionTimeOut" value="15000"/>
+        <property name="nameSpace" value="zk-scheduling"/>
+    </bean>
+    <!--调度工厂-->
+    <bean id="schdulerFactory" autowire="no" class="com.mulechina.job.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+        <property name="zooKeeperFactory" ref="zooKeeperFactory"/>
+    </bean>
+	
+</beans>
