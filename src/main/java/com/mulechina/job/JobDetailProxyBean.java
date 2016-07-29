@@ -1,10 +1,16 @@
 package com.mulechina.job;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 public class JobDetailProxyBean implements Job{
+	 public static Logger logger = Logger.getLogger(JobDetailProxyBean.class);
+
 	private String key;
 	private String group;
 	private String description;
@@ -15,6 +21,30 @@ public class JobDetailProxyBean implements Job{
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		
+		logger.info("context:"+context);
+		logger.info("group:"+group);
+		logger.info("key:"+key);
+		try {
+			Class clazz = targetObject.getClass();
+			Method method = clazz.getMethod(targetMethod, null);
+			method.invoke(targetObject, null);
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		logger.info("执行对象"+targetObject);
 		
 	}
 	public String getKey() {

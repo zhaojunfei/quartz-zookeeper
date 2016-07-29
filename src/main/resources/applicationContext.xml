@@ -38,11 +38,11 @@
 	</bean>
 	
 	<!--定时任务实现类-->
-    <bean id="test" class="com.mulechina.job.Test"/>
+    <bean id="helloWord" class="com.mulechina.job.HelloWord"/>
     <!--任务代理-->
     <bean id="jobDetail" class="com.mulechina.job.JobDetailProxyBean">
-        <property name="targetObject" ref="test"/>
-        <property name="targetMethod" value="test"/>
+        <property name="targetObject" ref="helloWord"/>
+        <property name="targetMethod" value="sayHello"/>
     </bean>
     <!--触发器-->
     <bean id="cronTrigger" class="com.mulechina.job.CronTriggerBean">
